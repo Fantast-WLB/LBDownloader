@@ -7,6 +7,7 @@
 //
 
 #import "LBDownloader.h"
+#import "LBDownloadTask.h"
 
 ///默认最大同时下载数量
 #define DEFAULT_MAX_COUNT 3
@@ -43,11 +44,7 @@
 }
 
 #pragma mark - Public
-///新增一个下载任务
-- (void)lb_downloadWithTask:(LBDownloadTask *)task
-{
-    
-}
+
 
 #pragma mark - LazyLoad
 - (NSCache *)taskCache

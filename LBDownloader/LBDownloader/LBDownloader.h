@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LBDownloadTask.h"
+
+@class LBDownloadTask;
 
 @interface LBDownloader : NSObject
 
 ///单例下载器
 + (instancetype)sharedInstance;
 
-///新增一个下载任务
-- (void)lb_downloadWithTask:(LBDownloadTask *)task;
+
 @end

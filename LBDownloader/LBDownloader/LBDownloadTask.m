@@ -8,7 +8,40 @@
 
 #import "LBDownloadTask.h"
 
+@interface LBDownloadTask ()
+///下载资源地址
+@property (nonatomic, copy) NSURL *taskURL;
+///保存的文件名
+@property (nonatomic, copy) NSString *fileName;
+///任务标识
+@property (nonatomic, copy) NSString *taskIdentifier;
+///任务状态
+@property (nonatomic, assign) LBTaskStatus taskStatus;
+@end
+
 @implementation LBDownloadTask
+
+#pragma mark - 创建任务
++ (instancetype)lb_taskWithURL:(NSURL *)url fileName:(NSString *)fileName
+{
+    LBDownloadTask *task = [[LBDownloadTask alloc]init];
+    task.taskURL = url;
+    task.fileName = fileName;
+    task.taskStatus = TASK_NULL;
+    task.taskPriority = TASK_PRIORITY_DEFAULT;
+    return task;
+}
+
+- (instancetype)initWithURL:(NSURL *)url fileName:(NSString *)fileName
+{
+    if ([self init]) {
+        self.taskURL = url;
+        self.fileName = fileName;
+        self.taskStatus = TASK_NULL;
+        self.taskPriority = TASK_PRIORITY_DEFAULT;
+    }
+    return self;
+}
 
 ///转成字典
 - (NSDictionary *)toDictionary
@@ -17,6 +50,7 @@
              @"taskURL"  : _taskURL,
              @"fileName" : _fileName,
              @"taskStatus" : @(_taskStatus),
+             @"taskPriority" : @(_taskPriority),
              };
 }
 
@@ -28,8 +62,17 @@
     task.taskURL = dict[@"taskURL"];
     task.fileName = dict[@"fileName"];
     task.taskStatus = [dict[@"taskStatus"] integerValue];
+    task.taskPriority = [dict[@"taskPriority"] integerValue];
     
     return task;
 }
 
+#pragma mark - LazyLoad
+- (NSString *)taskIdentifier
+{
+    if (!_taskIdentifier) {
+        _taskIdentifier = [NSString stringWithFormat:@"%@_%@",_taskURL.absoluteString,_fileName];
+    }
+    return _taskIdentifier;
+}
 @end
