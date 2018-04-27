@@ -14,6 +14,7 @@
 		535F76D32092B938006BA462 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 535F76D12092B938006BA462 /* LaunchScreen.storyboard */; };
 		535F76D62092B938006BA462 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76D52092B938006BA462 /* main.m */; };
 		535F76DF2092BAD4006BA462 /* LBDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76DE2092BAD4006BA462 /* LBDownloader.m */; };
+		535F76E22092C8BB006BA462 /* LBDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76E12092C8BB006BA462 /* LBDownloadTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		535F76D52092B938006BA462 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		535F76DD2092BAD4006BA462 /* LBDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBDownloader.h; sourceTree = "<group>"; };
 		535F76DE2092BAD4006BA462 /* LBDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBDownloader.m; sourceTree = "<group>"; };
+		535F76E02092C8BB006BA462 /* LBDownloadTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBDownloadTask.h; sourceTree = "<group>"; };
+		535F76E12092C8BB006BA462 /* LBDownloadTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBDownloadTask.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,8 @@
 			children = (
 				535F76DD2092BAD4006BA462 /* LBDownloader.h */,
 				535F76DE2092BAD4006BA462 /* LBDownloader.m */,
+				535F76E02092C8BB006BA462 /* LBDownloadTask.h */,
+				535F76E12092C8BB006BA462 /* LBDownloadTask.m */,
 			);
 			path = LBDownloader;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 				535F76CB2092B938006BA462 /* ViewController.m in Sources */,
 				535F76D62092B938006BA462 /* main.m in Sources */,
 				535F76DF2092BAD4006BA462 /* LBDownloader.m in Sources */,
+				535F76E22092C8BB006BA462 /* LBDownloadTask.m in Sources */,
 				535F76C82092B938006BA462 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

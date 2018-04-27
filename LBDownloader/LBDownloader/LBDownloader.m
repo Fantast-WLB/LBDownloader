@@ -8,6 +8,9 @@
 
 #import "LBDownloader.h"
 
+///默认最大同时下载数量
+#define DEFAULT_MAX_COUNT 3
+
 @interface LBDownloader ()
 ///任务集合
 @property (nonatomic, strong) NSCache *taskCache;
@@ -40,7 +43,8 @@
 }
 
 #pragma mark - Public
-- (void)downloadURL:(NSURL *)url
+///新增一个下载任务
+- (void)lb_downloadWithTask:(LBDownloadTask *)task
 {
     
 }
