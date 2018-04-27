@@ -8,6 +8,10 @@
 
 #import "LBDownloader.h"
 #import "LBDownloadTask.h"
+#import "LBFileHandler.h"
+#import "LBDownloadSession.h"
+
+#warning todo:检查本地任务，区分是否要自动下载
 
 ///默认最大同时下载数量
 #define DEFAULT_MAX_COUNT 3
@@ -44,7 +48,29 @@
 }
 
 #pragma mark - Public
-
+///增加下载会话
+- (void)lb_addDownloadSessionWithURL:(NSURL *)url fileName:(NSString *)fileName
+{
+    //检查是否有该文件，是否对应URL，不对应是覆盖还是沿用
+#warning todo:
+    
+    //检查是否有该URL，存在回调文件名
+#warning todo:
+    
+    //本地没有之后开始检查内存
+    LBDownloadSession *downloadingSession = [self.taskCache objectForKey:[LBFileHandler identifierWithURL:url]];
+    if (downloadingSession) {
+        //已经有该会话，回调文件名
+        if (self.delegate && [self.delegate respondsToSelector:@selector(urlDownloading:withFileName:)]) {
+            [self.delegate urlDownloading:url withFileName:downloadingSession.task.fileName];
+        }
+    } else {
+        //没有该会话，新建一个
+        LBDownloadSession *session = [[LBDownloadSession alloc]initWithURL:url fileName:fileName];
+        [self.taskCache setObject:session forKey:[LBFileHandler identifierWithURL:url]];
+        [session startDownload];
+    }
+}
 
 #pragma mark - LazyLoad
 - (NSCache *)taskCache

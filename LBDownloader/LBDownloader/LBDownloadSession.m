@@ -6,6 +6,8 @@
 //  Copyright © 2018 WhatTheGhost. All rights reserved.
 //
 
+#warning todo:1.封装配置;2.后台下载
+
 #import "LBDownloadSession.h"
 #import "LBDownloadTask.h"
 
@@ -47,6 +49,8 @@
         NSLog(@"LBDownloadSession start with no task");
         return;
     }
+#warning todo:检查是否存在本地任务
+    
     self.urlSession = [NSURLSession sessionWithConfiguration:self.customConfiguration ? self.customConfiguration : self.defaultConfiguration delegate:self delegateQueue:nil];
     switch (self.task.taskStatus) {
         case TASK_NULL:

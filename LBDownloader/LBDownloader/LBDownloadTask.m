@@ -7,6 +7,7 @@
 //
 
 #import "LBDownloadTask.h"
+#import "LBFileHandler.h"
 
 @interface LBDownloadTask ()
 ///下载资源地址
@@ -73,7 +74,7 @@
 - (NSString *)taskIdentifier
 {
     if (!_taskIdentifier) {
-        _taskIdentifier = [NSString stringWithFormat:@"%@_%@",_taskURL.absoluteString,_fileName];
+        _taskIdentifier = [LBFileHandler identifierWithURL:self.taskURL fileName:self.fileName];
     }
     return _taskIdentifier;
 }

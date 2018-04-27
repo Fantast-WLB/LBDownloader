@@ -10,4 +10,9 @@
 
 @interface LBFileHandler : NSObject
 
+///根据URL生成标识
++ (NSString *)identifierWithURL:(NSURL *)url;
+///根据URL和文件名生成标识
++ (NSString *)identifierWithURL:(NSURL *)url fileName:(NSString *)fileName;
+
 @end
