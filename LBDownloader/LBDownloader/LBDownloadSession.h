@@ -15,10 +15,15 @@
 ///下载的任务
 @property (nonatomic, strong, readonly) LBDownloadTask *task;
 
-///创建下载
+///创建下载会话
 + (instancetype)lb_sessionWithURL:(NSURL *)url fileName:(NSString *)fileName;
 - (instancetype)initWithURL:(NSURL *)url fileName:(NSString *)fileName;
 
-//下载动作
+/****** 下载动作 ******/
+///开始下载
 - (void)startDownload;
+///停止下载
+- (void)stopDownload;
+///删除下载
+- (void)deleteDownload;
 @end

@@ -51,6 +51,7 @@
              @"fileName" : _fileName,
              @"taskStatus" : @(_taskStatus),
              @"taskPriority" : @(_taskPriority),
+             @"resumeData" : _resumeData,
              };
 }
 
@@ -63,6 +64,7 @@
     task.fileName = dict[@"fileName"];
     task.taskStatus = [dict[@"taskStatus"] integerValue];
     task.taskPriority = [dict[@"taskPriority"] integerValue];
+    task.resumeData = dict[@"resumeData"];
     
     return task;
 }

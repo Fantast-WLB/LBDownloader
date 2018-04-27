@@ -40,18 +40,21 @@
     return self;
 }
 
-#pragma mark - 操作
+#pragma mark - 下载操作
 - (void)startDownload
 {
     if (!_task) {
         NSLog(@"LBDownloadSession start with no task");
         return;
     }
+    self.urlSession = [NSURLSession sessionWithConfiguration:self.customConfiguration ? self.customConfiguration : self.defaultConfiguration delegate:self delegateQueue:nil];
     switch (self.task.taskStatus) {
         case TASK_NULL:
         case TASK_WAITING:
+        {
             //还未开始下载
-            
+            [self startNewDownload];
+        }
             break;
         case TASK_DOWNLOADING:
             //正在下载
@@ -62,19 +65,44 @@
             
             break;
         case TASK_CANCELED:
-            //已经取消
-            
+        {
+            //已经取消，判断是否有可以恢复下载的数据，有的话继续，没有的话重新开始下载
+            if (self.task.resumeData) {
+                [self resumeDownload];
+            } else {
+                [self startNewDownload];
+            }
+        }
             break;
         case TASK_DELETED:
-            //已经删除
+            //已经删除，判断是否有本地已经下载完成文件，有的话完成下载，没有的话重新开始下载
             
             break;
     }
-    self.urlSession = [NSURLSession sessionWithConfiguration:self.customConfiguration ? self.customConfiguration : self.defaultConfiguration delegate:self delegateQueue:[[NSOperationQueue alloc]init]];
+}
 
-    [self.urlSession downloadTaskWithURL:self.task.taskURL completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-    }];
+//开始新的下载
+- (void)startNewDownload
+{
+    [self.urlSession downloadTaskWithURL:self.task.taskURL];
+}
+
+///根据数据恢复下载
+- (void)resumeDownload
+{
+    [self.urlSession downloadTaskWithResumeData:self.task.resumeData];
+}
+
+///停止下载
+- (void)stopDownload
+{
+    
+}
+
+///删除下载
+- (void)deleteDownload
+{
+    
 }
 
 #pragma mark - NSURLSessionDelegate
@@ -111,7 +139,7 @@
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    
+    //处理下载完成的文件
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
@@ -119,14 +147,14 @@ didFinishDownloadingToURL:(NSURL *)location
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    
+    //处理下载进度
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
  didResumeAtOffset:(int64_t)fileOffset
 expectedTotalBytes:(int64_t)expectedTotalBytes
 {
-    
+    //恢复下载
 }
 
 #pragma mark - Private

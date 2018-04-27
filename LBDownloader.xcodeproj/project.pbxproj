@@ -16,6 +16,7 @@
 		535F76DF2092BAD4006BA462 /* LBDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76DE2092BAD4006BA462 /* LBDownloader.m */; };
 		535F76E22092C8BB006BA462 /* LBDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76E12092C8BB006BA462 /* LBDownloadTask.m */; };
 		535F76E52092F7EB006BA462 /* LBDownloadSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76E42092F7EB006BA462 /* LBDownloadSession.m */; };
+		535F76E820931F6D006BA462 /* LBFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F76E720931F6D006BA462 /* LBFileHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,8 @@
 		535F76E12092C8BB006BA462 /* LBDownloadTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBDownloadTask.m; sourceTree = "<group>"; };
 		535F76E32092F7EB006BA462 /* LBDownloadSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBDownloadSession.h; sourceTree = "<group>"; };
 		535F76E42092F7EB006BA462 /* LBDownloadSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBDownloadSession.m; sourceTree = "<group>"; };
+		535F76E620931F6D006BA462 /* LBFileHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBFileHandler.h; sourceTree = "<group>"; };
+		535F76E720931F6D006BA462 /* LBFileHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBFileHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +93,8 @@
 				535F76E42092F7EB006BA462 /* LBDownloadSession.m */,
 				535F76E02092C8BB006BA462 /* LBDownloadTask.h */,
 				535F76E12092C8BB006BA462 /* LBDownloadTask.m */,
+				535F76E620931F6D006BA462 /* LBFileHandler.h */,
+				535F76E720931F6D006BA462 /* LBFileHandler.m */,
 			);
 			path = LBDownloader;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				535F76E820931F6D006BA462 /* LBFileHandler.m in Sources */,
 				535F76CB2092B938006BA462 /* ViewController.m in Sources */,
 				535F76D62092B938006BA462 /* main.m in Sources */,
 				535F76DF2092BAD4006BA462 /* LBDownloader.m in Sources */,
