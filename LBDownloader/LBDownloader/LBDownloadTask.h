@@ -33,6 +33,8 @@ typedef NS_ENUM(NSInteger, LBTaskPriority)
 @property (nonatomic, copy, readonly) NSURL *taskURL;
 ///保存的文件名
 @property (nonatomic, copy, readonly) NSString *fileName;
+///文件类型
+@property (nonatomic, copy, readonly) NSString *fileType;
 ///任务标识
 @property (nonatomic, copy, readonly) NSString *taskIdentifier;
 

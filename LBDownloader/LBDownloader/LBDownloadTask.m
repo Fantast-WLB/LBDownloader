@@ -68,6 +68,13 @@
     return task;
 }
 
+#pragma mark - Setter
+- (void)setFileName:(NSString *)fileName
+{
+    _fileName = fileName;
+    _fileType = fileName.pathExtension;
+}
+
 #pragma mark - LazyLoad
 - (NSString *)taskIdentifier
 {
