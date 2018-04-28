@@ -20,6 +20,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     LBDownloader *downloader = [LBDownloader sharedInstance];
+    [downloader lb_addDownloadSessionWithURL:[NSURL URLWithString:@"http://m5.pc6.com/xuh5/machinarium1002.dmg"] fileName:@"哎哟不错喔"];
 }
 
 

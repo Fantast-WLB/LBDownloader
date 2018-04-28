@@ -13,15 +13,19 @@
 
 #define DEFAULT_TIMEOUT 60
 
-@interface LBDownloadSession ()<NSURLSessionDownloadDelegate>
+@interface LBDownloadSession ()<NSURLSessionDownloadDelegate,NSURLSessionDataDelegate>
 ///下载的任务
 @property (nonatomic, strong) LBDownloadTask *task;
 ///下载会话
 @property (nonatomic, strong) NSURLSession *urlSession;
+///代理队列
+@property (nonatomic, strong) NSOperationQueue *sessionQueue;
 ///默认下载配置
 @property (nonatomic, strong) NSURLSessionConfiguration *defaultConfiguration;
 ///自定义下载配置
 @property (nonatomic, strong) NSURLSessionConfiguration *customConfiguration;
+///上一个记录的时间
+@property (nonatomic, assign) NSTimeInterval lastTimestamp;
 @end
 
 @implementation LBDownloadSession
@@ -49,9 +53,9 @@
         NSLog(@"LBDownloadSession start with no task");
         return;
     }
-#warning todo:检查是否存在本地任务
+#warning todo:检查是否存在本地任务(此前的判断是否够多了？)
     
-    self.urlSession = [NSURLSession sessionWithConfiguration:self.customConfiguration ? self.customConfiguration : self.defaultConfiguration delegate:self delegateQueue:nil];
+    self.urlSession = [NSURLSession sessionWithConfiguration:self.customConfiguration ? self.customConfiguration : self.defaultConfiguration delegate:self delegateQueue:self.sessionQueue];
     switch (self.task.taskStatus) {
         case TASK_NULL:
         case TASK_WAITING:
@@ -88,12 +92,16 @@
 //开始新的下载
 - (void)startNewDownload
 {
+    self.lastTimestamp = [self getCurrentTimestamp];
+    self.task.taskStatus = TASK_DOWNLOADING;
     [self.urlSession downloadTaskWithURL:self.task.taskURL];
 }
 
 ///根据数据恢复下载
 - (void)resumeDownload
 {
+    self.lastTimestamp = [self getCurrentTimestamp];
+    self.task.taskStatus = TASK_DOWNLOADING;
     [self.urlSession downloadTaskWithResumeData:self.task.resumeData];
 }
 
@@ -151,7 +159,15 @@ didFinishDownloadingToURL:(NSURL *)location
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    //处理下载进度
+    NSTimeInterval interval = [self getCurrentTimestamp] - self.lastTimestamp;
+    double downloadSpeed = bytesWritten / interval;//每秒下载量
+    double downloadProgress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;//下载进度
+    if (self.delegate && [self.delegate respondsToSelector:@selector(sessionDownloading:withSpeed:progress:)]) {
+        [self.delegate sessionDownloading:self withSpeed:downloadSpeed progress:downloadProgress];
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(sessionDownloading:withSpeed:progress:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+        [self.delegate sessionDownloading:self withSpeed:downloadSpeed progress:downloadProgress totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
@@ -160,6 +176,43 @@ expectedTotalBytes:(int64_t)expectedTotalBytes
 {
     //恢复下载
 }
+
+#pragma mark - NSURLSessionDataDelegate
+/* The task has received a response and no further messages will be
+ * received until the completion block is called. The disposition
+ * allows you to cancel a request or to turn a data task into a
+ * download task. This delegate message is optional - if you do not
+ * implement it, you can get the response as a property of the task.
+ *
+ * This method will not be called for background upload tasks (which cannot be converted to download tasks).
+ */
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    
+}
+
+/* Notification that a data task has become a download task.  No
+ * future messages will be sent to the data task.
+ */
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
+{
+    
+}
+
+/* Sent when data is available for the delegate to consume.  It is
+ * assumed that the delegate will retain and not copy the data.  As
+ * the data may be discontiguous, you should use
+ * [NSData enumerateByteRangesUsingBlock:] to access it.
+ */
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data
+{
+    
+}
+
 
 #pragma mark - Private
 -(NSURLCredential*)customAuthenticationChallenge:(SecTrustRef)trust domain:(NSString*)domain
@@ -185,6 +238,11 @@ expectedTotalBytes:(int64_t)expectedTotalBytes
     }
 }
 
+- (NSTimeInterval)getCurrentTimestamp
+{
+    return [[NSDate date] timeIntervalSince1970];
+}
+
 #pragma mark - LazyLoad
 - (NSURLSessionConfiguration *)defaultConfiguration
 {
@@ -192,5 +250,13 @@ expectedTotalBytes:(int64_t)expectedTotalBytes
         _defaultConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:self.task.taskIdentifier];
     }
     return _defaultConfiguration;
+}
+
+- (NSOperationQueue *)sessionQueue
+{
+    if (!_sessionQueue) {
+        _sessionQueue = [[NSOperationQueue alloc]init];
+    }
+    return _sessionQueue;
 }
 @end

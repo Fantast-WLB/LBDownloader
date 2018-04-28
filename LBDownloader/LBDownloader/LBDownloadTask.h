@@ -35,14 +35,14 @@ typedef NS_ENUM(NSInteger, LBTaskPriority)
 @property (nonatomic, copy, readonly) NSString *fileName;
 ///任务标识
 @property (nonatomic, copy, readonly) NSString *taskIdentifier;
-///任务状态
-@property (nonatomic, assign, readonly) LBTaskStatus taskStatus;
 
 /****** 可配置 ******/
 ///任务优先级
 @property (nonatomic, assign) LBTaskPriority taskPriority;
 ///用来回复下载的数据
 @property (nonatomic, copy) NSData *resumeData;
+///任务状态
+@property (nonatomic, assign) LBTaskStatus taskStatus;
 
 ///创建任务
 + (instancetype)lb_taskWithURL:(NSURL *)url fileName:(NSString *)fileName;

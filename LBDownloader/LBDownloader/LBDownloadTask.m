@@ -16,8 +16,6 @@
 @property (nonatomic, copy) NSString *fileName;
 ///任务标识
 @property (nonatomic, copy) NSString *taskIdentifier;
-///任务状态
-@property (nonatomic, assign) LBTaskStatus taskStatus;
 @end
 
 @implementation LBDownloadTask

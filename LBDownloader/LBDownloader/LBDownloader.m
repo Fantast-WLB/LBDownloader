@@ -16,7 +16,7 @@
 ///默认最大同时下载数量
 #define DEFAULT_MAX_COUNT 3
 
-@interface LBDownloader ()
+@interface LBDownloader () <LBDownloadSessionDelegate>
 ///任务集合
 @property (nonatomic, strong) NSCache *taskCache;
 
@@ -67,9 +67,25 @@
     } else {
         //没有该会话，新建一个
         LBDownloadSession *session = [[LBDownloadSession alloc]initWithURL:url fileName:fileName];
+        session.delegate = self;
         [self.taskCache setObject:session forKey:[LBFileHandler identifierWithURL:url]];
         [session startDownload];
     }
+}
+
+#pragma mark - LBDownloadSessionDelegate
+- (void)sessionDownloading:(LBDownloadSession *)session withSpeed:(double)speed progress:(double)progress
+{
+    
+}
+
+- (void)sessionDownloading:(LBDownloadSession *)session
+                 withSpeed:(double)speed
+                  progress:(double)progress
+         totalBytesWritten:(int64_t)totalBytesWritten
+ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    
 }
 
 #pragma mark - LazyLoad
