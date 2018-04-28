@@ -79,7 +79,7 @@
 - (NSString *)taskIdentifier
 {
     if (!_taskIdentifier) {
-        _taskIdentifier = [LBFileHandler identifierWithURL:self.taskURL fileName:self.fileName];
+        _taskIdentifier = [FILE_HANDLER identifierWithURL:self.taskURL fileName:self.fileName];
     }
     return _taskIdentifier;
 }

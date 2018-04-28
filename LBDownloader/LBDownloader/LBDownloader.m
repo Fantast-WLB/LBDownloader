@@ -58,7 +58,7 @@
 #warning todo:
     
     //本地没有之后开始检查内存
-    LBDownloadSession *downloadingSession = [self.taskCache objectForKey:[LBFileHandler identifierWithURL:url]];
+    LBDownloadSession *downloadingSession = [self.taskCache objectForKey:[FILE_HANDLER identifierWithURL:url]];
     if (downloadingSession) {
         //已经有该会话，回调文件名
         if (self.delegate && [self.delegate respondsToSelector:@selector(urlDownloading:withFileName:)]) {
@@ -68,7 +68,7 @@
         //没有该会话，新建一个
         LBDownloadSession *session = [[LBDownloadSession alloc]initWithURL:url fileName:fileName];
         session.delegate = self;
-        [self.taskCache setObject:session forKey:[LBFileHandler identifierWithURL:url]];
+        [self.taskCache setObject:session forKey:[FILE_HANDLER identifierWithURL:url]];
         [session startDownload];
     }
 }

@@ -10,6 +10,7 @@
 
 #import "LBDownloadSession.h"
 #import "LBDownloadTask.h"
+#import "LBFileHandler.h"
 
 #define DEFAULT_TIMEOUT 60
 
@@ -151,7 +152,10 @@
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    //处理下载完成的文件
+    //保存下载完成的文件
+    NSData *fileData = [NSData dataWithContentsOfURL:location];
+    [FILE_HANDLER saveFileData:fileData.copy toPath:FILE_PATH(self.task.fileName)];
+    [FILE_HANDLER addFileToPlistWithURL:self.task.taskURL fileName:self.task.fileName];
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
